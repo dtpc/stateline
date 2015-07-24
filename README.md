@@ -1,5 +1,7 @@
 stateline
 =========
+[![Build Status](https://travis-ci.org/dtpc/stateline.svg?branch=test%2Ftravis-ci)](https://travis-ci.org/dtpc/stateline)
+
 Stateline is a framework for distributed Markov Chain Monte Carlo (MCMC) sampling written in C++11. It focuses on [parallel tempering](http://en.wikipedia.org/wiki/Parallel_tempering) methods which are highly parallelisable.
 
 System Support

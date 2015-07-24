@@ -1,0 +1,63 @@
+sudo: false
+language: cpp
+compiler: g++
+
+cache:
+  directories:
+    - ${TRAVIS_BUILD_DIR}/../stateline-deps
+
+addons: 
+  apt: 
+    sources: 
+      - ubuntu-toolchain-r-test 
+    packages: 
+      - gcc-4.8 
+      - g++-4.8
+      - bzip2
+      - libbz2-dev
+      - doxygen
+      - python-dev
+
+# whitelist
+branches:
+  only:
+    - test/travis-ci
+
+before_install:
+  - echo ${TRAVIS_BUILD_DIR}
+  - echo $HOME
+  - export CC=/usr/bin/gcc-4.8
+  - export CXX=/usr/bin/g++-4.8
+  - pwd
+  - echo "nproc=$(nproc)"
+  - export STATELINE_SOURCE_DIR=$(pwd)
+  - export PREREQ_DIR=${STATELINE_SOURCE_DIR}/../stateline-deps
+  - cd ..
+  - ln -s /usr/bin/gcc-4.8 gcc
+  - ln -s /usr/bin/g++-4.8 g++
+  - export PATH=$(pwd):$PATH
+
+install:
+  - g++ --version
+  - pwd
+  - ls -larth ${STATELINE_SOURCE_DIR}
+  - ls -larth ${STATELINE_SOURCE_DIR}/prereqs/
+  - ls -larth ${PREREQ_DIR}/
+  - ${STATELINE_SOURCE_DIR}/prereqs/travisPrereqs.sh ${STATELINE_SOURCE_DIR} ${PREREQ_DIR}
+  - export BOOST_ROOT=$PREREQ_DIR
+  - export Boost_INCLUDE_DIR=${PREREQ_DIR}/include/boost-1_55/
+  - export BOOST_INCLUDEDIR=${PREREQ_DIR}/include/boost-1_55/
+
+before_script:
+  - pwd
+  - ls -la $BOOST_ROOT/include/boost-1_55/boost
+  - ls -la $BOOST_ROOT/lib
+  - cd ..
+  - mkdir stateline-build
+  - cd stateline-build
+  - echo $STATELINE_SOURCE_DIR
+  - echo $PREREQ_DIR
+
+script:
+  - cmake $STATELINE_SOURCE_DIR -DBoost_DEBUG=ON -DSTATELINE_BINARY_DIR=$(pwd) -DSTATELINE_SOURCE_DIR=$STATELINE_SOURCE_DIR -DPREREQ_DIR=$PREREQ_DIR $@
+  - make
