@@ -32,8 +32,6 @@ install:
   - g++ --version
   - ${STATELINE_SOURCE_DIR}/prereqs/travisPrereqs.sh ${STATELINE_SOURCE_DIR} ${PREREQ_DIR}
   - export BOOST_ROOT=$PREREQ_DIR
-  - export Boost_INCLUDE_DIR=${PREREQ_DIR}/include/boost-1_55/
-  - export BOOST_INCLUDEDIR=${PREREQ_DIR}/include/boost-1_55/
 
 before_script:
   - mkdir ../stateline-build
