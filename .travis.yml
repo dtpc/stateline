@@ -25,6 +25,7 @@ before_install:
   - export PREREQ_DIR=${STATELINE_SOURCE_DIR}/../stateline-deps
   - ln -s /usr/bin/gcc-4.8 gcc
   - ln -s /usr/bin/g++-4.8 g++
+  - export PATH=$(pwd):$PATH
 
 install:
   - echo "nproc=$(nproc)"
@@ -35,9 +36,8 @@ install:
   - export BOOST_INCLUDEDIR=${PREREQ_DIR}/include/boost-1_55/
 
 before_script:
-  - cd ..
-  - mkdir stateline-build
-  - cd stateline-build
+  - mkdir ../stateline-build
+  - cd ../stateline-build
 
 script:
   - cmake $STATELINE_SOURCE_DIR -DBoost_DEBUG=ON -DSTATELINE_BINARY_DIR=$(pwd) -DSTATELINE_SOURCE_DIR=$STATELINE_SOURCE_DIR -DPREREQ_DIR=$PREREQ_DIR $@
